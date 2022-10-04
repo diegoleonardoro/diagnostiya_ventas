@@ -1,0 +1,45 @@
+_app.js: is the root component
+
+AppComponent (Component, pageProps, currentUser):
+
+--> Component represents the component inside index.js.
+
+--> pageProps represents the getInitialProps of the component inside index.js.
+
+--> currentUser represents the current logged in user.
+
+Component: receives pageProps in its props, and pageProps represents the current logged in user. 
+
+Component: contains the ClientesCreate component (form to create a new client)
+
+ClientesCreate componenent contains the ClientesLista component
+
+ClientesLista component renders a list of clients for the current logged in user.
+
+
+---------------------------------------
+
+
+PlacasCreate component:
+
+1. Needs to save placas once the form is submitted
+
+2. Needs to send back the submitted values to the App Component 
+
+3. The App Component needs to pass these values to Component (which is the component inside index.js) 
+
+4. Component nedds to pass these values to the ClientesCreate component 
+
+5. The ClientesCreate component needs to pass these values to the ClientesLista component 
+
+6. The ClientesLista component needs to render the values. 
+
+
+---------------------------------------
+
+
+When the user is trying to save a placa:
+
+the cliente input field needs to display all the clients that were saved in the db
+
+there needs to be a query to the db 

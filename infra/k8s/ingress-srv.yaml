@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # some of the paths we will list later in the file will have regular expressions:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+    - host: diagnostiya-intranet.com
+      http:
+        paths:
+          - path: /usuarios/?(.*)
+            pathType: Prefix
+            backend:
+              #'authdya-srv' comes from the authdya-depl.yaml file
+              service:
+                name: authdya-srv
+                port:
+                  number: 3000
+          - path: /compradores/?(.*)
+            pathType: Prefix
+            backend:
+              #'authdya-srv' comes from the authdya-depl.yaml file
+              service:
+                name: compradoresdya-srv
+                port:
+                  number: 3000
+          - path: /?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: clientdya-srv
+                port:
+                  number: 3000

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clientdya-depl
+spec: #describe hos this deployment is supposed to behave. 
+  replicas: 1 # we only want to be running one single pod. 
+  selector:
+    matchLabels:
+      app: clientdya
+  template: # describe how this pod is created
+    metadata: 
+      labels:
+        app: clientdya
+    spec: # describe how each pod should behave
+      containers: 
+        - name: client 
+          image: diegoleoro/clientdya # Image that we pushed to Docker 
+
+
+---
+# Create the cluster ip service 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: clientdya-srv
+spec:
+  selector:
+    app: clientdya # this selector is how this service is going to going to find the pods that it will govern access to 
+  ports: 
+    - name: clientdya # this name not really important
+      protocol: TCP
+      port: 3000 # next.js by default listens to port 3000 
+      targetPort: 3000

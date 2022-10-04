@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compradoresdya-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: compradoresdya
+  template:
+    metadata:
+      labels:
+        # needs to match the selector:
+        app: compradoresdya
+    spec:
+      #containers that will be running inside of this pod:
+      containers:
+        #name for log in purposes:
+        - name: compradoresdya
+          #image to use (defined in docker):
+          image: diegoleoro/compradoresdya
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: compradoresdya-srv
+spec:
+  # how to select all the pods that it is supposed to govern access to. In this case it is all the pods the label of "app: auth"
+  selector:
+    app: compradoresdya
+    #ports that we want to expose on that pod:
+  ports:
+    - name: compradoresdya
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

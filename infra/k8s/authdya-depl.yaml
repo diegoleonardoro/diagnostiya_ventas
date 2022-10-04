@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authdya-depl
+spec:
+  # number of pods that we want for the auth service
+  replicas: 1
+  #selector will tell the deployment how to find all the pods that it is going to create:
+  selector:
+    matchLabels:
+      app: authdya
+  # template will tell the deployment how to create each individual pod that this deployment is goint to create:
+  template:
+    metadata:
+      labels:
+        # needs to match the selector:
+        app: authdya
+    # spec is going to tell the pod how to behave:
+    spec:
+      #containers that will be running inside of this pod:
+      containers:
+        #name for log in purposes:
+        - name: authdya
+          #image to use (defined in docker):
+          image: diegoleoro/authdya
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authdya-srv
+spec:
+  # how to select all the pods that it is supposed to govern access to. In this case it is all the pods the label of "app: auth"
+  selector:
+    app: authdya
+    #ports that we want to expose on that pod:
+  ports:
+    - name: authdya
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
